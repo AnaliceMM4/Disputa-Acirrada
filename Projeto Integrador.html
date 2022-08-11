@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FIERCE DISPUTE </title>
+</head>
+<style>
+    body{
+        background: linear-gradient(270.17deg, #AD8B3B 0.18%, rgba(41, 41, 41, 0.79) 99.88%);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);        
+    }
+
+    h1 {
+        color: #ffffff;
+        text-align: center;
+        font-size: 45px;
+        font-family: 'Times New Roman';
+    }
+
+    #botao1, #botao {
+        margin: 10px;
+        font-size: 24px;
+        color: #ffffff;
+        border-radius: 6px;
+    }
+
+    #botao1{
+    background: #AD8B3B;
+    box-sizing: border-box;
+    border: 1px solid #665E4A;
+    height: 48px;
+    width: 268px;
+    left: 72px;
+    top: 267px;
+    border-radius: 0px;
+    }
+
+    #botao{
+    background: #998B68;
+    box-sizing: border-box;
+    border: 1px solid #8C8166;
+    height: 47px;
+    width: 268px;
+    left: 72px;
+    top: 334px;
+    border-radius: 0px;
+    }
+
+    p {
+        margin: 15px;
+        color: #ffffff;
+    }
+
+    #numero {
+        font-size: 20px;
+    }
+
+    #jog1jogou, #jog2jogou, #jogadores, #acirrada, #jogador1ve, #jogador2ve, #jogador1, #jogador2 {
+        font-size: 20px;
+    }
+
+</style>
+<script>
+
+    var cartas = ['2E', '4C', '14O', '2C', '9P', '2O', '12C', '6E', '7C', '5O', '7P', '14C', '11E', '10O', '2P', '13E', '3O', '9C', '3E', '6O', '4E', '12P', '10P', '14E', '5E', '4O',
+        '5C', '4P', '3P', '12E', '13P', '8O', '7E', '14P', '11C', '12O', '3C', '11O', '10E', '13C', '11P', '8C', '9E', '5P', '6C', '7O', '9O', '8P', '10C', '13O', '6P', '8E'];
+
+    var posicao = Math.floor(Math.random() * 52);
+
+    var jogador1 = [];
+    var jogador2 = [];
+
+    var valorAleatorio = 0;
+    var cartasEmbaralhadas = [];
+
+    var jog2jogou = "";
+    var jog1jogou = "";
+
+    // document.getElementById("2E").src="2 -E";
+
+    function embaralhar() {
+        cartasEmbaralhadas = [];
+        while (cartas.length != 0) {
+            valorAleatorio = Math.floor(Math.random() * cartas.length)
+            cartasEmbaralhadas.push(cartas[valorAleatorio]);
+            cartas.splice(valorAleatorio, 1);
+        }
+        document.getElementById("numero").innerHTML = "Baralho Embaralhado: " + cartasEmbaralhadas + "<br>";
+
+        for (var i = 0; i < cartasEmbaralhadas.length; i++) {
+
+            if (i < 26) {
+                jogador1.push(cartasEmbaralhadas[i]);
+            } else {
+                jogador2.push(cartasEmbaralhadas[i]);
+            }
+        }
+
+        document.getElementById("jogadores").innerHTML = "Jogador 1: " + jogador1 + "<br>" + "Jogador 2: " + jogador2 + "<br>";
+    }
+
+    //document.getElementById("jogador1").innerHTML = "Jogador 1: " + jogador1;
+    //document.getElementById("jogador2").innerHTML = "Jogador 2: " + jogador2;
+
+    //document.getElementById("jog1jogou").innerHTML = "Jogador 1 jogou: " + jogador1[0];
+    //document.getElementById("jog2jogou").innerHTML = "Jogador 2 jogou: " + jogador2[0];
+
+    function rodada() {
+
+        document.getElementById("jogador1ve").innerHTML = "";
+        document.getElementById("jogador2ve").innerHTML = "";
+        document.getElementById("acirrada").innerHTML = "";
+
+        document.getElementById("rodada").innerHTML = "";
+
+
+        var jog2jogou = parseInt(jogador2[0].substring(0, jogador2[0].length - 1));
+        var jog1jogou = parseInt(jogador1[0].substring(0, jogador1[0].length - 1));
+
+        document.getElementById("jog1jogou").innerHTML = "Jogador 1 jogou: " + jogador1[0];
+        document.getElementById("jog2jogou").innerHTML = "Jogador 2 jogou: " + jogador2[0];
+
+        if (jog1jogou > jog2jogou) {
+            document.getElementById("jogador1ve").innerHTML = "Jogador 1 venceu esta rodada!";
+            jogador1.push(jogador2[0]);
+            jogador1.push(jogador1[0]);
+            jogador1.splice(0, 1);
+            jogador2.splice(0, 1);
+
+        } else if (jog1jogou < jog2jogou) {
+            document.getElementById("jogador2ve").innerHTML = "Jogador 2 venceu esta rodada!";
+            jogador2.push(jogador2[0]);
+            jogador2.push(jogador1[0]);
+            jogador1.splice(0, 1);
+            jogador2.splice(0, 1);
+
+        } else {
+            document.getElementById("acirrada").innerHTML = "Começou uma disputa acirrada!";
+
+            var ateJog2 = jogador2.length;
+            var ateJog1 = jogador1.length;
+
+            if (ateJog2 < 5) {
+                for (var i = 1; i <= ateJog2; i++) {
+                    jog2jogou += parseInt(jogador2[i].substring(0, jogador2[i].length - 1));
+                }
+            } else {
+                for (var i = 1; i < 5; i++) {
+                    jog2jogou += parseInt(jogador2[i].substring(0, jogador2[i].length - 1));
+                }
+            }
+
+            if (ateJog1 < 5) {
+                for (var i = 1; i <= ateJog1; i++) {
+                    jog1jogou += parseInt(jogador1[i].substring(0, jogador1[i].length - 1));
+                }
+
+            } else {
+                for (var i = 1; i < 5; i++) {
+                    jog1jogou += parseInt(jogador1[i].substring(0, jogador1[i].length - 1));
+                }
+
+            }
+
+            if (jog1jogou > jog2jogou) {
+                document.getElementById("jogador1ve").innerHTML = "Jogador 1 venceu esta rodada!";
+
+                for (var i = 0; i < 5; i++) {
+                    jogador1.push(jogador1[i]);
+                    jogador1.push(jogador2[i]);
+                }
+
+                jogador1.splice(0, 5);
+                jogador2.splice(0, 5);
+
+            } else if (jog1jogou < jog2jogou) {
+                document.getElementById("jogador2ve").innerHTML = "Jogador 2 venceu esta rodada!";
+
+                for (var i = 0; i < 5; i++) {
+                    jogador2.push(jogador2[i]);
+                    jogador2.push(jogador1[i]);
+                }
+
+                jogador1.splice(0, 5);
+                jogador2.splice(0, 5);
+
+            } else {
+                document.getElementById("acirrada").innerHTML = "Jogador1: " + jogador1 + "<br>" + "Jogador2: " + jogador2 + "<br> Começou uma disputa acirrada! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+                //empate função
+            }
+        }
+
+        document.getElementById("jogador1").innerHTML = "Jogador 1: " + jogador1;
+        document.getElementById("jogador2").innerHTML = "Jogador 2: " + jogador2;
+
+        if (jogador2.length == 0) {
+            document.getElementById("vencedor1").innerHTML = "Jogador 1 VENCEU!!!";
+
+        } else if (jogador1.length == 0) {
+
+            document.getElementById("vencedor2").innerHTML = "Jogador 2 VENCEU!!!";
+        }
+    }
+
+</script>
+
+<body>
+    <h1>FIERCE DISPUTE</h1>
+
+    <button type="button" id="botao1" onclick="embaralhar()">Embaralhar</button>
+    <p id="numero"></p>
+    <p id="jogadores"></p>
+
+    <p id="rodada"></p>
+    <button type="button" id="botao" onclick="rodada()">Jogar</button>
+
+    <p id="jog1jogou"></p>
+    <p id="jog2jogou"></p>
+
+    <p id="jogador1"></p>
+    <p id="jogador2"></p>
+
+    <p id="jogador1ve"></p>
+    <p id="jogador2ve"></p>
+    <p id="acirrada"></p>
+
+    <p id="vencedor1"></p>
+    <p id="vencedor2"></p>
+
+
+</body>
+</html>
